@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAI API Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container h-100 d-flex justify-content-center align-items-center">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">Here's your answer</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ response }} 
+                        <div id="response">
+                            <script>
+                                // parse the JSON response
+                                var jsonResponse = JSON.parse('{{ response|tojson|safe }}');
+                                // update the HTML with the answer
+                                document.getElementById("response").innerText = jsonResponse.response;
+                            </script>
+                        </div>
+                        <form method="POST" action="/download" enctype="text/plain">
+                            <input type="hidden" name="response" value="{{ message }}">
+                            <button type="submit" class="btn btn-primary">Download as markdown</button>
+                        </form>
+                        <form method="GET" action="/">
+                            <button type="submit" class="btn btn-secondary">Back</button>
+                        </form>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>    
+</body>
+</html>

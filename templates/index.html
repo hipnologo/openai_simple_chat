@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>OpenAI API Demo</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1>OpenAI API Demo</h1>
+        <form action="{{ url_for('answer') }}" method="post">
+            <div class="form-group">
+                <label for="topic">Topic:</label>
+                <input type="text" class="form-control" id="topic" name="topic">
+            </div>
+            <div class="form-group">
+                <label for="prompt">Prompt:</label>
+                <select class="form-control" id="prompt" name="prompt">
+                    <option value="What are the ethical considerations of">What are the ethical considerations of</option>
+                    <option value="What are the potential future implications of">What are the potential future implications of</option>
+                    <option value="Can you provide a comparison of">Can you provide a comparison of</option>
+                    <option value="What are the key takeaways from">What are the key takeaways from</option>
+                    <option value="What are the most promising developments in">What are the most promising developments in</option>
+                    <option value="What are the major challenges facing">What are the major challenges facing</option>
+                    <option value="What are some alternatives to">What are some alternatives to</option>
+                    <option value="What are the historical roots of">What are the historical roots of</option>
+                    <option value="What are the trends in">What are the trends in</option>
+                    <option value="What are the implications of">What are the implications of</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" class="btn btn-primary" value="Submit">
+            </div>
+        </form>
+    <div id="answer" class="form-group" style="display: none;"></div>
+    </div>
+    <script>
+        // JavaScript code to handle the form submission and display the answer on the same page
+    </script>
+                    
+</body>
+</html>
