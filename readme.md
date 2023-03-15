@@ -1,6 +1,12 @@
 # OpenAI Simple Chat
 This project demonstrates the use of OpenAI's API to generate text completions in a simple web-based chat application. The application is built using Flask, a micro web framework for Python, and uses the OpenAI API to generate text completions based on a given prompt and topic. 
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Forks](https://img.shields.io/github/forks/hipnologo/openai_simple_chat)](https://github.com/hipnologo/openai_simple_chat/network/members)
+[![Stars](https://img.shields.io/github/stars/hipnologo/openai_simple_chat)](https://github.com/hipnologo/openai_simple_chat/stargazers)
+[![Issues](https://img.shields.io/github/issues/hipnologo/openai_simple_chat)](https://github.com/hipnologo/openai_simple_chat/issues)
+[![GitHub contributors](https://img.shields.io/github/contributors/hipnologo/openai_simple_chat)](https://github.com/hipnologo/openai_simple_chat/graphs/contributors)
+
 ## Getting Started
 To use this application, you will need to sign up for an API key from OpenAI, which you can do [here](https://beta.openai.com/signup/). Once you have an API key, you can set it as an environment variable on your system. 
 
