@@ -16,16 +16,34 @@ def index():
 
 # Answer route: The '/answer' route is used to generate a response based on user input. 
 # It takes input values from the web form that are passed to the function via the HTTP POST method. 
-# The function then uses OpenAI's API to generate a response using the GPT-3 model with the specified prompt and topic. 
+# The function then uses OpenAI's API to generate a response using the GPT-3.5-turbo or GPT-4 model with the specified prompt and topic. 
 # Finally, it renders the "answer.html" template with the response as a parameter.
 @app.route("/answer", methods=["POST"])
 def answer():
     topic = request.form["topic"]
     prompt = request.form["prompt"]
-    model = "text-davinci-003"
-    completions = openai.Completion.create(engine=model, prompt=prompt + " " + topic, max_tokens=1024, n=1,stop=None,temperature=0.7)
-    message = completions.choices[0].text
-    return render_template("answer.html", response=message) 
+    
+    # Using GPT-4 (you can set other model if needed)
+    model = "gpt-4"
+    
+    # Construct the message log for conversation-like interaction
+    messages = [{"role": "system", "content": "You are an assistant that helps generate information about various topics."},
+                {"role": "user", "content": f"{prompt} {topic}"}]
+    
+    # Call the OpenAI API with ChatCompletion
+    response = openai.ChatCompletion.create(
+        model=model,
+        messages=messages,
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=0.7
+    )
+    
+    # Extract the assistant's reply from the API response
+    message = response['choices'][0]['message']['content']
+    
+    return render_template("answer.html", response=message)
 
 # Download route: The '/download' route is used to allow users to download the generated response. 
 # If a response is available, it is converted to a markdown file and downloaded. 
