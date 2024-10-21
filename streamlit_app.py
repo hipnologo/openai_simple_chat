@@ -6,14 +6,15 @@ import os
 LAST_GPT = True
 
 # Set OpenAI API key
-if 'api_key' not in globals():
+if 'api_key' not in st.session_state:
     api_key = os.getenv("OPENAI_API_KEY")
-    openai.api_key = api_key
-else:
-    try:
-        api_key = st.text_input("Add your OpenAI API Key")
+    if api_key:
         openai.api_key = api_key
-    except Exception as e:
+else:
+    api_key = st.text_input("Add your OpenAI API Key", type="password")
+    if api_key:
+        openai.api_key = api_key
+    else:
         st.warning("No OpenAI API Key has been found")
 
 # Define the function to generate responses
@@ -23,27 +24,24 @@ def generate_response(message_log, prompt):
         return "Hi, how can I help you today?"
 
     try:
-        if LAST_GPT == True:
-            ### gpt-3.5-turbo model
-            messages = [dict(role="user", content=prompt)]
+        messages = message_log if message_log else [{"role": "user", "content": prompt}]
+        
+        if LAST_GPT:
+            # Using GPT-4 or GPT-3.5-turbo models
             response = openai.ChatCompletion.create(
-                model="gpt-3.5-turbo",
-                messages=messages,  # The last message in the conversation history as the prompt
+                model="gpt-4" if LAST_GPT else "gpt-3.5-turbo",
+                messages=messages,
                 max_tokens=100,
-                n=1,
-                stop=None,
-                temperature=0.3, # The "creativity" of the generated response (higher temperature = more creative)
+                temperature=0.3,  # The "creativity" of the generated response
                 presence_penalty=2
             )
             message = response['choices'][0]['message']['content']
         else:
-            ### text-davinci-003 model
+            # Using older models such as text-davinci-003
             response = openai.Completion.create(
                 engine="text-davinci-003",
                 prompt=prompt,
                 max_tokens=100,
-                n=1,
-                stop=None,
                 temperature=0.3,
                 presence_penalty=2
             )
@@ -65,9 +63,9 @@ if 'message_log' not in st.session_state:
 # Get the user input and generate responses
 user_input = st.text_input("You:")
 if user_input:
-    prompt = st.session_state['message_log'][-1]["content"] if st.session_state['message_log'] else ""
     st.session_state['message_log'].append({"role": "user", "content": user_input})
-    ai_response = generate_response(st.session_state['message_log'], prompt)
+    ai_response = generate_response(st.session_state['message_log'], user_input)
+    st.session_state['message_log'].append({"role": "assistant", "content": ai_response})
 
 # Display the conversation history
 if st.session_state['message_log']:
